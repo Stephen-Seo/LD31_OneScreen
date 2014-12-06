@@ -1,6 +1,8 @@
 
 #include "game.hpp"
 
+#include <TheScreen.hpp>
+
 // set packfile name/filepath if one is being used
 #define PACKFILE_NAME ""
 
@@ -89,4 +91,7 @@ void Game::registerResources()
 // State IDs must be listed in stateIdentifiers.hpp
 void Game::registerStates()
 {
+    stateStack.registerState<TheScreen>(States::TheScreen);
+
+    stateStack.push(States::TheScreen);
 }
