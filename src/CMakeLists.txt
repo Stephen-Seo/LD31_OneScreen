@@ -2,24 +2,24 @@ cmake_minimum_required(VERSION 2.6)
 project(Game_Project)
 
 set(Game_Project_SOURCES
-    animatedSprite.cpp
-    connection.cpp
-    context.cpp
-    game.cpp
-    gui.cpp
-    musicPlayer.cpp
-    networkIdentifiers.cpp
-    resourceIdentifiers.cpp
-    resourceManager.cpp
-    sceneNode.cpp
-    soundPlayer.cpp
-    state.cpp
-    stateStack.cpp
-    utility.cpp
-    ec/engine.cpp
-    ec/entity.cpp
-    ec/nMove.cpp
-    ec/system.cpp
+    engine/animatedSprite.cpp
+    engine/connection.cpp
+    engine/context.cpp
+    engine/game.cpp
+    engine/gui.cpp
+    engine/musicPlayer.cpp
+    engine/networkIdentifiers.cpp
+    engine/resourceIdentifiers.cpp
+    engine/resourceManager.cpp
+    engine/sceneNode.cpp
+    engine/soundPlayer.cpp
+    engine/state.cpp
+    engine/stateStack.cpp
+    engine/utility.cpp
+    engine/ec/engine.cpp
+    engine/ec/entity.cpp
+    engine/ec/nMove.cpp
+    engine/ec/system.cpp
     main.cpp)
 
 if(WIN32)
@@ -29,6 +29,8 @@ else()
 add_executable(Game_Project
     ${Game_Project_SOURCES})
 endif()
+
+include_directories(${CMAKE_SOURCE_DIR})
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/../cmake_modules" ${CMAKE_MODULE_PATH})
 

@@ -2,4 +2,4 @@ bin
 *.o
 build*/
 
-.gradle
+*.swp
