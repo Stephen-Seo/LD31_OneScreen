@@ -22,6 +22,7 @@ set(Game_Project_SOURCES
     engine/ec/system.cpp
     TheScreen.cpp
     Battle.cpp
+    GameUtility.cpp
     main.cpp)
 
 if(WIN32)

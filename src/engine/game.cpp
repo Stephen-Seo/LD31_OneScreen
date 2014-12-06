@@ -87,6 +87,7 @@ void Game::draw()
 void Game::registerResources()
 {
     resourceManager.registerTexture(Textures::BG, "res/background.png");
+    resourceManager.registerTexture(Textures::SAVE, "res/save.png");
 }
 
 // register states via stateStack

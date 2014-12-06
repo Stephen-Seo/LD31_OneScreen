@@ -35,6 +35,16 @@ Will use a second state class for the battle overlay.
 Need to figure out collisions between world and player.
 Perhaps it should be done where a specific color of the bg is collidable?
 
+RED - death
+GREEN - one time save/heal
+BLUE - boss
+
+YELLOW - start
+CYAN - jetpack
+MAGENTA/PURPLE - the end
+
+WHITE - air I guess
+BLACK - ground
 
 ==== Battle state ====
 
