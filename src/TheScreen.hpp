@@ -36,6 +36,8 @@ private:
 
     sf::Vector2u startLocation;
 
+    bool jetpack;
+
     /*
      * collision bitfield map
         0000 0000 - black

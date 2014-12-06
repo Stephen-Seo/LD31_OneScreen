@@ -16,6 +16,7 @@ right(false),
 jump(false),
 player(sf::Vector2f(9.0f, 9.0f)),
 grounded(false),
+jetpack(true),
 collisionMap(new char[720*480])
 {
     // check if "save" data exists
@@ -109,6 +110,7 @@ collisionMap(new char[720*480])
             else if(color == sf::Color::Cyan)
             {
                 collisionMap[i + j * 720] = 0x2 | 0x4;
+                jetpack = false;
             }
             else if(color == sf::Color::Magenta)
             {
@@ -204,7 +206,7 @@ void TheScreen::playerMovement(sf::Time dt)
     }
 
     // jumping
-    if(jump && grounded)
+    if(jump && (grounded || jetpack))
     {
         grounded = false;
         velocity.y = -PLAYER_JUMP;
@@ -234,6 +236,10 @@ void TheScreen::applyVelocity(sf::Time dt)
         {
             bgImage = GameUtility::removeColorAtPixel(edges[i], bgImage, collisionMap.get());
             save(cData == 0x2);
+            if(cData == 0x6)
+            {
+                jetpack = true;
+            }
         }
         else if(cData == 0)
         {
@@ -255,6 +261,10 @@ void TheScreen::applyVelocity(sf::Time dt)
         {
             bgImage = GameUtility::removeColorAtPixel(edges[i], bgImage, collisionMap.get());
             save(cData == 0x2);
+            if(cData == 0x6)
+            {
+                jetpack = true;
+            }
         }
         else if(cData == 0)
         {
