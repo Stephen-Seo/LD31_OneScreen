@@ -22,3 +22,20 @@ Ok lets go with jumping in the Z direction?
 
 ...
 Maybe I'll have a better idea after trying to make a song for it.
+
+
+I slept on it, and decided to make a really tiny platformer where you see the
+entire world with an old school RPG battle system.
+
+Will use a second state class for the battle overlay.
+
+
+==== Battle state ====
+
+Not in battle:
+    Display Player status on key "I"
+    If feature is in, also able to equip stuff in the status menu
+
+In battle:
+    show enemy in the center, stats in the bottom, options in the top
+        Earthbound style.

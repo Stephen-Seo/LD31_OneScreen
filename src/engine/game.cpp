@@ -93,5 +93,5 @@ void Game::registerStates()
 {
     stateStack.registerState<TheScreen>(States::TheScreen);
 
-    stateStack.push(States::TheScreen);
+    stateStack.pushState(States::TheScreen);
 }

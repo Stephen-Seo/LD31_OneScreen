@@ -20,6 +20,8 @@ set(Game_Project_SOURCES
     engine/ec/entity.cpp
     engine/ec/nMove.cpp
     engine/ec/system.cpp
+    TheScreen.cpp
+    Battle.cpp
     main.cpp)
 
 if(WIN32)
