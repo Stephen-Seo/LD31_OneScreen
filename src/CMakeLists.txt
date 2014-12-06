@@ -81,6 +81,8 @@ endif()
 
 install(TARGETS Game_Project DESTINATION Game_Project)
 
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/../res" DESTINATION Game_Project)
+
 if(WIN32)
     install(FILES "${SFML_ROOT}/bin/libsndfile-1.dll" DESTINATION Game_Project)
     install(FILES "${SFML_ROOT}/bin/openal32.dll" DESTINATION Game_Project)

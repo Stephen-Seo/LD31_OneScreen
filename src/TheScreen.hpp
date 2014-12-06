@@ -4,6 +4,8 @@
 
 #include <engine/state.hpp>
 
+#include <SFML/Graphics.hpp>
+
 class TheScreen : public State
 {
 public:
@@ -15,7 +17,8 @@ public:
     bool handleEvent(const sf::Event& event);
 
 private:
-
+    sf::Image bgImage;
+    sf::Sprite bgSprite;
 
 };
 

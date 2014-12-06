@@ -2,6 +2,7 @@
 #include "game.hpp"
 
 #include <TheScreen.hpp>
+#include <Battle.hpp>
 
 // set packfile name/filepath if one is being used
 #define PACKFILE_NAME ""
@@ -85,6 +86,7 @@ void Game::draw()
 // Resource IDs must be listed in resourceIdentifiers.hpp
 void Game::registerResources()
 {
+    resourceManager.registerTexture(Textures::BG, "res/background.png");
 }
 
 // register states via stateStack
@@ -92,6 +94,7 @@ void Game::registerResources()
 void Game::registerStates()
 {
     stateStack.registerState<TheScreen>(States::TheScreen);
+    stateStack.registerState<Battle>(States::Battle);
 
     stateStack.pushState(States::TheScreen);
 }
