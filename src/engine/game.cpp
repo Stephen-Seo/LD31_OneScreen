@@ -88,6 +88,8 @@ void Game::registerResources()
 {
     resourceManager.registerTexture(Textures::BG, "res/background.png");
     resourceManager.registerTexture(Textures::SAVE, "res/save.png");
+
+    resourceManager.registerSoundBuffer(Sound::OneScreenBeat, "res/LD31_00.ogg");
 }
 
 // register states via stateStack

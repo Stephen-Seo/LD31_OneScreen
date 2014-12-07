@@ -5,6 +5,7 @@
 
 #include <engine/resourceIdentifiers.hpp>
 #include <engine/resourceManager.hpp>
+#include <engine/soundPlayer.hpp>
 #include <GameUtility.hpp>
 
 TheScreen::TheScreen(StateStack& stack, Context context) :
@@ -34,6 +35,7 @@ collisionMap(new char[720*480])
 
     // Registering resources for this state
     tset.insert(Textures::BG);
+    sset.insert(Sound::OneScreenBeat);
 
     // Loading registered resources
     getContext().resourceManager->loadResources(getNeededResources());
@@ -118,6 +120,10 @@ collisionMap(new char[720*480])
             }
         }
     }
+
+    // start music
+    sf::SoundBuffer* osb = &getContext().resourceManager->getSoundBuffer(Sound::OneScreenBeat);
+    getContext().sPlayer->play(*osb, true);
 }
 
 TheScreen::~TheScreen()

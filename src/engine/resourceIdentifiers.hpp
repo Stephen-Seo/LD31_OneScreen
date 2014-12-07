@@ -43,6 +43,7 @@ namespace Sound
 {
     enum ID
     {
+        OneScreenBeat
     };
 }
 
