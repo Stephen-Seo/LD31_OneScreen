@@ -2,7 +2,7 @@
 #ifndef SOUND_PLAYER_HPP
 #define SOUND_PLAYER_HPP
 
-#include <list>
+#include <map>
 #include <SFML/Audio.hpp>
 #include <SFML/System.hpp>
 
@@ -13,15 +13,19 @@ class SoundPlayer : private sf::NonCopyable
 {
 public:
     SoundPlayer();
-    void play(sf::SoundBuffer& soundBuffer, bool looping=false);
-    void play(sf::SoundBuffer& soundBuffer, sf::Vector2f position, bool looping=false);
+    int create(sf::SoundBuffer& soundBuffer);
+    void play(int id, bool looping=false);
+    void play(int id, sf::Vector2f position, bool looping=false);
+    void pause(int id);
+    void destroy(int id);
     void removeStoppedSounds();
     void stopAllSounds();
     void stopLoopingSounds();
     void setListenerPosition(sf::Vector2f position);
     sf::Vector2f getListenerPosition() const;
 private:
-    std::list<sf::Sound> mSounds;
+    std::map<int, sf::Sound> mSounds;
+    int id;
 };
 
 #endif

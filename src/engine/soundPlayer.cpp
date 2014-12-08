@@ -12,54 +12,97 @@ namespace
         std::sqrt(MinDistance2D*MinDistance2D + Listenerz*Listenerz);
 }
 
-SoundPlayer::SoundPlayer()
+SoundPlayer::SoundPlayer() :
+id(0)
 {}
 
-void SoundPlayer::play(sf::SoundBuffer& soundBuffer, bool looping)
+int SoundPlayer::create(sf::SoundBuffer& soundBuffer)
 {
-    play(soundBuffer, getListenerPosition(), looping);
+    sf::Sound newSound(soundBuffer);
+
+    std::map<int, sf::Sound>::iterator check;
+    do
+    {
+        check = mSounds.find(id++);
+    } while (check != mSounds.end());
+
+    int newID = id;
+
+    mSounds.insert(std::make_pair(newID, newSound));
+
+    return newID;
 }
 
-void SoundPlayer::play(sf::SoundBuffer& soundBuffer, sf::Vector2f position, bool looping)
+void SoundPlayer::play(int sid, bool looping)
 {
-    mSounds.push_back(sf::Sound(soundBuffer));
-    sf::Sound& sound = mSounds.back();
+    play(sid, getListenerPosition(), looping);
+}
 
-    sound.setLoop(looping);
+void SoundPlayer::play(int sid, sf::Vector2f position, bool looping)
+{
+    auto sound = mSounds.find(sid);
+    if(sound == mSounds.end())
+        return;
 
-    sound.setPosition(position.x, -position.y, 0.0f);
-    sound.setAttenuation(Attenuation);
-    sound.setMinDistance(MinDistance3D);
+    sound->second.setLoop(looping);
 
-    sound.play();
+    sound->second.setPosition(position.x, -position.y, 0.0f);
+    sound->second.setAttenuation(Attenuation);
+    sound->second.setMinDistance(MinDistance3D);
+
+    sound->second.play();
+}
+
+void SoundPlayer::pause(int sid)
+{
+    auto sound = mSounds.find(sid);
+    if(sound == mSounds.end())
+        return;
+
+    if(sound->second.getStatus() == sf::Sound::Playing)
+    {
+        sound->second.pause();
+    }
+}
+
+void SoundPlayer::destroy(int sid)
+{
+    mSounds.erase(sid);
 }
 
 void SoundPlayer::removeStoppedSounds()
 {
-    mSounds.remove_if([] (const sf::Sound& s)
+    for(auto iter = mSounds.begin(); iter != mSounds.end(); ++iter)
     {
-        return s.getStatus() == sf::Sound::Stopped;
-    } );
+        if(iter->second.getStatus() == sf::Sound::Stopped)
+        {
+            iter = mSounds.erase(iter);
+            --iter;
+        }
+    }
 }
 
 void SoundPlayer::stopAllSounds()
 {
-    std::for_each(mSounds.begin(), mSounds.end(), [](sf::Sound& sound) {
-        if(sound.getStatus() == sf::Sound::Playing)
+    for(auto iter = mSounds.begin(); iter != mSounds.end(); ++iter)
+    {
+        if(iter->second.getStatus() == sf::Sound::Playing)
         {
-            sound.stop();
+            iter->second.stop();
         }
-    });
+    }
 }
 
 void SoundPlayer::stopLoopingSounds()
 {
-    std::for_each(mSounds.begin(), mSounds.end(), [](sf::Sound& sound) {
-        if(sound.getStatus() == sf::Sound::Playing && sound.getLoop())
+    for(auto iter = mSounds.begin(); iter != mSounds.end(); ++iter)
+    {
+        if(iter->second.getStatus() == sf::Sound::Playing &&
+           iter->second.getLoop())
         {
-            sound.stop();
+            iter->second.stop();
         }
-    });
+    }
 }
 
 void SoundPlayer::setListenerPosition(sf::Vector2f position)

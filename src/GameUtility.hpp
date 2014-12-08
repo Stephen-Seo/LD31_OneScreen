@@ -22,6 +22,9 @@ namespace GameUtility
 
     // Returns corners/sides of rectangle shape as unique_ptr array.
     std::unique_ptr<sf::Vector2u[]> getEdges(sf::RectangleShape shape);
+
+    // Returns true if the coordinates are within the rect.
+    bool isWithin(int x, int y, sf::FloatRect rect);
 }
 
 #endif

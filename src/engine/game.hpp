@@ -13,6 +13,7 @@
 #include "soundPlayer.hpp"
 #include "state.hpp"
 #include "stateStack.hpp"
+#include <BattleContext.hpp>
 
 class Game
 {
@@ -40,6 +41,8 @@ private:
     bool isQuitting;
 
     Engine ecEngine;
+
+    BattleContext battleContext;
 };
 
 #endif

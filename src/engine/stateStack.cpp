@@ -23,7 +23,7 @@ void StateStack::update(sf::Time dt)
 
 void StateStack::draw()
 {
-    std::for_each(stack.rbegin(), stack.rend(), [] (State::Ptr& state)
+    std::for_each(stack.begin(), stack.end(), [] (State::Ptr& state)
     {
         state->draw();
     } );

@@ -30,7 +30,7 @@ Game::Game()
 resourceManager(&stateStack, RESOURCE_MANAGER_MODE, PACKFILE_NAME),
 mPlayer(),
 sPlayer(),
-stateStack(Context(window, resourceManager, mPlayer, sPlayer, ecEngine, isQuitting)),
+stateStack(Context(window, resourceManager, mPlayer, sPlayer, ecEngine, isQuitting, battleContext)),
 isQuitting(false)
 {
     registerResources();
@@ -88,8 +88,13 @@ void Game::registerResources()
 {
     resourceManager.registerTexture(Textures::BG, "res/background.png");
     resourceManager.registerTexture(Textures::SAVE, "res/save.png");
+    resourceManager.registerTexture(Textures::BGUI, "res/battleGui.png");
+    resourceManager.registerTexture(Textures::LAMP, "res/lamp.png");
 
     resourceManager.registerSoundBuffer(Sound::OneScreenBeat, "res/LD31_00.ogg");
+    resourceManager.registerSoundBuffer(Sound::Text, "res/LD31_sfx_text.ogg");
+
+    resourceManager.registerFont(Fonts::DJVSMono, "res/DejaVuSansMono.ttf");
 }
 
 // register states via stateStack

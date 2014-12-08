@@ -131,3 +131,12 @@ std::unique_ptr<sf::Vector2u[]> GameUtility::getEdges(sf::RectangleShape shape)
 
     return std::move(edges);
 }
+
+bool GameUtility::isWithin(int x, int y, sf::FloatRect rect)
+{
+    float fx = (float) x;
+    float fy = (float) y;
+
+    return fx >= rect.left && fx <= rect.left + rect.width &&
+           fy >= rect.top && fy <= rect.top + rect.height;
+}

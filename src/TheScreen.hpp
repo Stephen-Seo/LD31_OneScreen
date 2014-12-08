@@ -51,11 +51,16 @@ private:
     */
     std::unique_ptr<char[]> collisionMap;
 
+    sf::Vector2u battleCoord;
+
+    int musicID;
+
     void playerMovement(sf::Time dt);
     void playerGravity(sf::Time dt);
     void applyVelocity(sf::Time dt);
     void save(bool changeStart);
-    void resetCollisionMap();
+
+    void setLevel(int level);
 };
 
 #endif

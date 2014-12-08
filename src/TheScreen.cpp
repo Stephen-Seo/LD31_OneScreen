@@ -7,6 +7,7 @@
 #include <engine/resourceManager.hpp>
 #include <engine/soundPlayer.hpp>
 #include <GameUtility.hpp>
+#include <BattleContext.hpp>
 
 TheScreen::TheScreen(StateStack& stack, Context context) :
 State(stack, context),
@@ -36,6 +37,10 @@ collisionMap(new char[720*480])
     // Registering resources for this state
     tset.insert(Textures::BG);
     sset.insert(Sound::OneScreenBeat);
+    sset.insert(Sound::Text);
+    tset.insert(Textures::BGUI);
+    fset.insert(Fonts::DJVSMono);
+    tset.insert(Textures::LAMP);
 
     // Loading registered resources
     getContext().resourceManager->loadResources(getNeededResources());
@@ -54,6 +59,24 @@ collisionMap(new char[720*480])
 
     bgImage = bgTexture->copyToImage();
     bgSprite.setTexture(*bgTexture);
+
+    // get boss saved info
+    if(bgImage.getPixel(0, 0) == sf::Color::Black)
+    {
+        getContext().battleContext->bossId = 0;
+    }
+    else if(bgImage.getPixel(0, 0) == sf::Color::Red)
+    {
+        getContext().battleContext->bossId = 1;
+    }
+    else if(bgImage.getPixel(0, 0) == sf::Color::Green)
+    {
+        getContext().battleContext->bossId = 2;
+    }
+    else if(bgImage.getPixel(0, 0) == sf::Color::Blue)
+    {
+        getContext().battleContext->bossId = 3;
+    }
 
     // setup player
     player.setFillColor(sf::Color::Magenta);
@@ -123,7 +146,9 @@ collisionMap(new char[720*480])
 
     // start music
     sf::SoundBuffer* osb = &getContext().resourceManager->getSoundBuffer(Sound::OneScreenBeat);
-    getContext().sPlayer->play(*osb, true);
+    musicID = getContext().sPlayer->create(*osb);
+
+    getContext().sPlayer->play(musicID, true);
 }
 
 TheScreen::~TheScreen()
@@ -139,6 +164,41 @@ void TheScreen::draw()
 
 bool TheScreen::update(sf::Time dt)
 {
+    if(getContext().battleContext->battleEnded)
+    {
+        if(getContext().battleContext->pHP > 0)
+        {
+            setLevel(getContext().battleContext->bossId);
+
+            bgImage = GameUtility::removeColorAtPixel(battleCoord, bgImage, collisionMap.get());
+            switch(getContext().battleContext->bossId)
+            {
+            case 1:
+                bgImage.setPixel(0, 0, sf::Color::Red);
+                break;
+            case 2:
+                bgImage.setPixel(0, 0, sf::Color::Green);
+                break;
+            case 3:
+                bgImage.setPixel(0, 0, sf::Color::Blue);
+                break;
+            case 4:
+                bgImage.setPixel(0, 0, sf::Color::White);
+                break;
+            default:
+                break;
+            }
+            save(false);
+        }
+        else
+        {
+            getContext().battleContext->pHP = getContext().battleContext->pHPM;
+            getContext().battleContext->pSP = getContext().battleContext->pSPM;
+            player.setPosition(sf::Vector2f(startLocation));
+        }
+        getContext().battleContext->battleEnded = false;
+    }
+
     playerGravity(dt);
     playerMovement(dt);
     applyVelocity(dt);
@@ -234,17 +294,30 @@ void TheScreen::applyVelocity(sf::Time dt)
     std::unique_ptr<sf::Vector2u[]> edges = GameUtility::getEdges(player);
 
     char cData;
+    bool battleInitiated = false;
 
     for(int i = 0; i < 8; ++i)
     {
         cData = collisionMap[edges[i].x + edges[i].y * 720];
         if(cData == 0x2 || cData == 0x4 || cData == 0x6)
         {
-            bgImage = GameUtility::removeColorAtPixel(edges[i], bgImage, collisionMap.get());
-            save(cData == 0x2);
-            if(cData == 0x6)
+            if(cData != 0x4)
             {
-                jetpack = true;
+                bgImage = GameUtility::removeColorAtPixel(edges[i], bgImage, collisionMap.get());
+                save(cData == 0x2);
+                if(cData == 0x6)
+                {
+                    jetpack = true;
+                }
+            }
+            else if(cData == 0x4)
+            {
+                if(!battleInitiated)
+                {
+                    requestStackPush(States::Battle);
+                    battleCoord = edges[i];
+                    battleInitiated = true;
+                }
             }
         }
         else if(cData == 0)
@@ -265,11 +338,23 @@ void TheScreen::applyVelocity(sf::Time dt)
         cData = collisionMap[edges[i].x + edges[i].y * 720];
         if(cData == 0x2 || cData == 0x4 || cData == 0x6)
         {
-            bgImage = GameUtility::removeColorAtPixel(edges[i], bgImage, collisionMap.get());
-            save(cData == 0x2);
-            if(cData == 0x6)
+            if(cData != 0x4)
             {
-                jetpack = true;
+                bgImage = GameUtility::removeColorAtPixel(edges[i], bgImage, collisionMap.get());
+                save(cData == 0x2);
+                if(cData == 0x6)
+                {
+                    jetpack = true;
+                }
+            }
+            else if(cData == 0x4)
+            {
+                if(!battleInitiated)
+                {
+                    requestStackPush(States::Battle);
+                    battleCoord = edges[i];
+                    battleInitiated = true;
+                }
             }
         }
         else if(cData == 0)
@@ -344,4 +429,12 @@ void TheScreen::save(bool changeStart)
 
     sf::Texture* bg = &getContext().resourceManager->getTexture(Textures::SAVE);
     bgSprite.setTexture(*bg);
+}
+
+void TheScreen::setLevel(int level)
+{
+    getContext().battleContext->pSPM = 50 + 40 * level;
+
+    getContext().battleContext->pHP = getContext().battleContext->pHPM;
+    getContext().battleContext->pSP = getContext().battleContext->pSPM;
 }

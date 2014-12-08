@@ -17,7 +17,9 @@ namespace Textures
     enum ID
     {
         BG,
-        SAVE
+        SAVE,
+        BGUI,
+        LAMP
     };
 }
 
@@ -25,6 +27,7 @@ namespace Fonts
 {
     enum ID
     {
+        DJVSMono
     };
 }
 
@@ -43,7 +46,8 @@ namespace Sound
 {
     enum ID
     {
-        OneScreenBeat
+        OneScreenBeat,
+        Text
     };
 }
 

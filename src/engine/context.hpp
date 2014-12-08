@@ -10,6 +10,7 @@ class ResourceManager;
 class MusicPlayer;
 class SoundPlayer;
 class Engine;
+class BattleContext;
 
 
 struct Context
@@ -19,7 +20,8 @@ struct Context
             MusicPlayer& mPlayer,
             SoundPlayer& sPlayer,
             Engine& ecEngine,
-            bool& isQuitting);
+            bool& isQuitting,
+            BattleContext& battleContext);
 
     sf::RenderWindow* window;
     ResourceManager* resourceManager;
@@ -27,6 +29,7 @@ struct Context
     SoundPlayer* sPlayer;
     Engine* ecEngine;
     bool* isQuitting;
+    BattleContext* battleContext;
 };
 
 #endif
