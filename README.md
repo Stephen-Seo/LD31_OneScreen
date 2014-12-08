@@ -11,6 +11,8 @@ To build project, make directory "build" and cd to it. Then use the commands:
 cmake ../src
 make
 
+To build in Release instead of Debug, use option `-DCMAKE\_BUILD\_TYPE=Release`
+
 To setup Makefile with SFML-2 in a non-standard directory:
 cmake -D SFML\_ROOT=${Directory} ../src
 
