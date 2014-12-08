@@ -90,7 +90,7 @@ textSpeed(0.0f)
 
     getContext().battleContext->bHP = 100 + currentBoss * 35;
     getContext().battleContext->bSP = 20;
-    getContext().battleContext->bATK = 80;
+    getContext().battleContext->bATK = 80 + currentBoss * 20;
     getContext().battleContext->bDEF = 5;
     text = "A Lamp appears to fight!";
 

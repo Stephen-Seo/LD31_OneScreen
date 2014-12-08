@@ -41,6 +41,8 @@ collisionMap(new char[720*480])
     tset.insert(Textures::BGUI);
     fset.insert(Fonts::DJVSMono);
     tset.insert(Textures::LAMP);
+    sset.insert(Sound::Jetpack);
+    sset.insert(Sound::YOUWIN);
 
     // Loading registered resources
     getContext().resourceManager->loadResources(getNeededResources());
@@ -143,6 +145,10 @@ collisionMap(new char[720*480])
             }
         }
     }
+
+    // setup sfx
+    jetpackID = getContext().sPlayer->create(getContext().resourceManager->getSoundBuffer(Sound::Jetpack));
+    winID = getContext().sPlayer->create(getContext().resourceManager->getSoundBuffer(Sound::YOUWIN));
 
     // start music
     sf::SoundBuffer* osb = &getContext().resourceManager->getSoundBuffer(Sound::OneScreenBeat);
@@ -299,7 +305,7 @@ void TheScreen::applyVelocity(sf::Time dt)
     for(int i = 0; i < 8; ++i)
     {
         cData = collisionMap[edges[i].x + edges[i].y * 720];
-        if(cData == 0x2 || cData == 0x4 || cData == 0x6)
+        if(cData == 0x2 || cData == 0x4 || cData == 0x6 || cData == 0x5)
         {
             if(cData != 0x4)
             {
@@ -308,6 +314,12 @@ void TheScreen::applyVelocity(sf::Time dt)
                 if(cData == 0x6)
                 {
                     jetpack = true;
+                    getContext().sPlayer->play(jetpackID);
+                }
+                else if(cData == 0x5)
+                {
+                    getContext().sPlayer->pause(musicID);
+                    getContext().sPlayer->play(winID);
                 }
             }
             else if(cData == 0x4)
@@ -319,6 +331,10 @@ void TheScreen::applyVelocity(sf::Time dt)
                     battleInitiated = true;
                 }
             }
+        }
+        else if(cData == 0x1)
+        {
+            player.setPosition(sf::Vector2f(startLocation));
         }
         else if(cData == 0)
         {
@@ -336,7 +352,7 @@ void TheScreen::applyVelocity(sf::Time dt)
     for(int i = 0; i < 8; ++i)
     {
         cData = collisionMap[edges[i].x + edges[i].y * 720];
-        if(cData == 0x2 || cData == 0x4 || cData == 0x6)
+        if(cData == 0x2 || cData == 0x4 || cData == 0x6 || cData == 0x5)
         {
             if(cData != 0x4)
             {
@@ -345,6 +361,12 @@ void TheScreen::applyVelocity(sf::Time dt)
                 if(cData == 0x6)
                 {
                     jetpack = true;
+                    getContext().sPlayer->play(jetpackID);
+                }
+                else if(cData == 0x5)
+                {
+                    getContext().sPlayer->pause(musicID);
+                    getContext().sPlayer->play(winID);
                 }
             }
             else if(cData == 0x4)
@@ -356,6 +378,10 @@ void TheScreen::applyVelocity(sf::Time dt)
                     battleInitiated = true;
                 }
             }
+        }
+        else if(cData == 0x1)
+        {
+            player.setPosition(sf::Vector2f(startLocation));
         }
         else if(cData == 0)
         {

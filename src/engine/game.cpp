@@ -93,6 +93,8 @@ void Game::registerResources()
 
     resourceManager.registerSoundBuffer(Sound::OneScreenBeat, "res/LD31_00.ogg");
     resourceManager.registerSoundBuffer(Sound::Text, "res/LD31_sfx_text.ogg");
+    resourceManager.registerSoundBuffer(Sound::Jetpack, "res/LD31_sfx_jetpack.ogg");
+    resourceManager.registerSoundBuffer(Sound::YOUWIN, "res/LD31_YOUWIN.ogg");
 
     resourceManager.registerFont(Fonts::DJVSMono, "res/DejaVuSansMono.ttf");
 }

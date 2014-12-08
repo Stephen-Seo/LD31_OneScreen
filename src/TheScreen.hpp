@@ -54,6 +54,8 @@ private:
     sf::Vector2u battleCoord;
 
     int musicID;
+    int jetpackID;
+    int winID;
 
     void playerMovement(sf::Time dt);
     void playerGravity(sf::Time dt);

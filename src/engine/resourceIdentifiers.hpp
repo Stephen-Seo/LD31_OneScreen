@@ -47,7 +47,9 @@ namespace Sound
     enum ID
     {
         OneScreenBeat,
-        Text
+        Text,
+        Jetpack,
+        YOUWIN
     };
 }
 
