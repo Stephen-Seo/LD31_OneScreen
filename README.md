@@ -1,5 +1,9 @@
 
 
+# Notes
+
+This thing was made using my ol [psuedo game engine](https://github.com/Stephen-Seo/SFML_GameEngine) that is apparently very buggy.
+
 # Compiling
 
 ## Building with CMake
