@@ -26,10 +26,10 @@ set(Game_Project_SOURCES
     main.cpp)
 
 if(WIN32)
-add_executable(Game_Project WIN32
+add_executable(LD31_RPGPlatformer WIN32
     ${Game_Project_SOURCES})
 else()
-add_executable(Game_Project
+add_executable(LD31_RPGPlatformer
     ${Game_Project_SOURCES})
 endif()
 
@@ -46,13 +46,13 @@ endif()
 
 if(SFML_FOUND)
     include_directories(${SFML_INCLUDE_DIR})
-    target_link_libraries(Game_Project ${SFML_LIBRARIES})
+    target_link_libraries(LD31_RPGPlatformer ${SFML_LIBRARIES})
 endif()
 
 find_package(ResourcePacker 1 CONFIG QUIET)
 if(ResourcePacker_FOUND)
     include_directories(${ResourcePacker_INCLUDE_DIR})
-    target_link_libraries(Game_Project ${ResourcePacker_LIBRARIES})
+    target_link_libraries(LD31_RPGPlatformer ${ResourcePacker_LIBRARIES})
     add_definitions(-DResourcePacker_FOUND)
 else()
     message(STATUS "ResourcePacker not found, continuing without it.")
@@ -80,7 +80,7 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
     set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release")
 endif()
 
-install(TARGETS Game_Project DESTINATION Game_Project)
+install(TARGETS LD31_RPGPlatformer DESTINATION Game_Project)
 
 install(DIRECTORY "${CMAKE_SOURCE_DIR}/../res" DESTINATION Game_Project)
 
